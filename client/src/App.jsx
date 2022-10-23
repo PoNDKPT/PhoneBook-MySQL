@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { getEmployee } from './features/employeeSlice';
 import { toggleModal } from './features/modalSlice';
+import { UserGroupIcon } from '@heroicons/react/24/solid';
 
 function App() {
   const employeeDispatch = useDispatch();
@@ -28,10 +29,13 @@ function App() {
       <Navbar />
       <div className="container">
         <div className="flex justify-between items-center gap-6 py-3">
-          <h1 className="text-3xl font-medium">Contacts</h1>
+          <div className="flex">
+            <UserGroupIcon className="w-8 aspect-square mr-2 text-sky-600" />
+            <h1 className="text-2xl font-bold">Contacts</h1>
+          </div>
           <button
             onClick={onOpenModal}
-            className="flex border rounded-full py-2 px-4 bg-sky-500 text-white font-medium hover:bg-sky-600"
+            className="flex border rounded-full py-2 px-4 bg-sky-600 text-white font-medium hover:bg-sky-600"
           >
             <PlusIcon className="w-6 aspect-square" />
             Add

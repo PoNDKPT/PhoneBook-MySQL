@@ -1,13 +1,15 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import {
   Squares2X2Icon,
   PencilIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toggleModal } from '../../features/modalSlice';
 import { deleteEmployee, editEmployee } from '../../features/employeeSlice';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 const Dropdown = (props) => {
   const modalDispatch = useDispatch();
@@ -19,8 +21,23 @@ const Dropdown = (props) => {
     employeeDispatch(editEmployee(employee));
   };
 
+  const Swal2 = withReactContent(Swal);
+
   const onDelete = () => {
-    employeeDispatch(deleteEmployee(employee.id));
+    Swal2.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal2.fire('Deleted!', 'Your content has been deleted.', 'success');
+        employeeDispatch(deleteEmployee(employee.id));
+      }
+    });
   };
 
   return (

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { formatPhoneNumber } from '../../utils/formatNumber';
 import { postEmployee, putEmployee } from '../../features/employeeSlice';
 import { toggleModal } from '../../features/modalSlice';
 
@@ -34,6 +35,11 @@ const Form = () => {
     setValue('phone', employee?.phone);
     setValue('position', employee?.position);
   }, [employee]);
+
+  const phoneNumberFormatter = (e) => {
+    const formatter = formatPhoneNumber(e.target.value);
+    e.target.value = formatter;
+  };
 
   const onSubmit = async (data) => {
     if (modalState.type === 'add') {
@@ -85,6 +91,7 @@ const Form = () => {
         <div className="group-form">
           <label htmlFor="">Phone</label>
           <input
+            onKeyDown={(e) => phoneNumberFormatter(e)}
             {...register('phone', {
               required: 'This is required.',
               minLength: {
@@ -108,7 +115,11 @@ const Form = () => {
           />
           <span className="valid-msg">{errors.position?.message}</span>
         </div>
-        <input type="submit" value="Submit" className="cursor-pointer" />
+        <input
+          type="submit"
+          value="Submit"
+          className="cursor-pointer bg-sky-600 text-white hover:bg-sky-500"
+        />
       </form>
     </>
   );
